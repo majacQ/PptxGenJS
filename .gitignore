@@ -3,10 +3,13 @@
 
 # Production
 /build
+/demos
 
 # Generated files
-.docusaurus
-.cache-loader
+/.docusaurus
+/.cache-loader
+/.vscode
+/src/bld
 
 # Misc
 .DS_Store

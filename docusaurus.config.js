@@ -18,6 +18,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 		},
 		onBrokenLinks: "throw",
 		onBrokenMarkdownLinks: "warn",
+		trailingSlash: true,
 		favicon: "img/favicon.png",
 		presets: [
 			[
@@ -77,17 +78,23 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 						position: "left",
 						"aria-label": "get started",
 					},
-					{
+					/*{
 						to: "docs/installation",
 						label: "Installation",
 						position: "left",
 						"aria-label": "installation",
-					},
+					},*/
 					{
-						to: "demo",
+						to: "demos",
 						label: "Demos",
 						position: "left",
 						"aria-label": "demos",
+					},
+					{
+						to: "html2pptx",
+						label: "HTML-to-PPTX",
+						position: "left",
+						"aria-label": "html-to-pptx",
 					},
 					{
 						href: "https://github.com/gitbrent/PptxGenJS/releases",
@@ -144,7 +151,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 							},
 							{
 								label: "Demos",
-								href: "demo",
+								href: "/demos",
 							},
 						],
 					},
