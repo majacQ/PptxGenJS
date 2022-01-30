@@ -1,4 +1,4 @@
-/* PptxGenJS 3.7.1 @ 2021-08-29T21:45:03.219Z */
+/* PptxGenJS 3.8.0 @ 2021-09-28T02:59:16.704Z */
 'use strict';
 
 var JSZip = require('jszip');
@@ -1500,7 +1500,7 @@ function genTableToSlides(pptx, tabEleId, options, masterSlide) {
     // Pass head-rows as there is an option to add to each table and the parse func needs this data to fulfill that option
     opts._arrObjTabHeadRows = arrObjTabHeadRows || null;
     opts.colW = arrColW;
-    getSlidesForTableRows(__spreadArray(__spreadArray(__spreadArray([], arrObjTabHeadRows), arrObjTabBodyRows), arrObjTabFootRows), opts, pptx.presLayout, masterSlide).forEach(function (slide, idxTr) {
+    getSlidesForTableRows(__spreadArray(__spreadArray(__spreadArray([], arrObjTabHeadRows, true), arrObjTabBodyRows, true), arrObjTabFootRows), opts, pptx.presLayout, masterSlide).forEach(function (slide, idxTr) {
         // A: Create new Slide
         var newSlide = pptx.addSlide({ masterName: opts.masterSlideName || null });
         // B: DESIGN: Reset `y` to startY or margin after first Slide (ISSUE#43, ISSUE#47, ISSUE#48)
@@ -4486,7 +4486,7 @@ var Slide = /** @class */ (function () {
 function createExcelWorksheet(chartObject, zip) {
     var data = chartObject.data;
     return new Promise(function (resolve, reject) {
-        var zipExcel = new JSZip__default['default']();
+        var zipExcel = new JSZip__default["default"]();
         var intBubbleCols = (data.length - 1) * 2 + 1; // 1 for "X-Values", then 2 for every Y-Axis
         // A: Add folders
         zipExcel.folder('_rels');
@@ -6389,7 +6389,7 @@ function createSvgPngPreview(rel) {
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
-var VERSION = '3.8.0-beta-20210829-1643';
+var VERSION = '3.8.0';
 var PptxGenJS = /** @class */ (function () {
     function PptxGenJS() {
         var _this = this;
@@ -6484,20 +6484,8 @@ var PptxGenJS = /** @class */ (function () {
             eleLink.dataset.interception = 'off'; // @see https://docs.microsoft.com/en-us/sharepoint/dev/spfx/hyperlinking
             document.body.appendChild(eleLink);
             // STEP 2: Download file to browser
-            // DESIGN: Use `createObjectURL()` (or MS-specific func for IE11) to D/L files in client browsers (FYI: synchronously executed)
-            if (window.navigator.msSaveOrOpenBlob) {
-                // @see https://docs.microsoft.com/en-us/microsoft-edge/dev-guide/html5/file-api/blob
-                var blob_1 = new Blob([blobContent], { type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' });
-                eleLink.onclick = function () {
-                    window.navigator.msSaveOrOpenBlob(blob_1, exportName);
-                };
-                eleLink.click();
-                // Clean-up
-                document.body.removeChild(eleLink);
-                // Done
-                return Promise.resolve(exportName);
-            }
-            else if (window.URL.createObjectURL) {
+            // DESIGN: Use `createObjectURL()` to D/L files in client browsers (FYI: synchronously executed)
+            if (window.URL.createObjectURL) {
                 var url_1 = window.URL.createObjectURL(new Blob([blobContent], { type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' }));
                 eleLink.href = url_1;
                 eleLink.download = exportName;
@@ -6519,7 +6507,7 @@ var PptxGenJS = /** @class */ (function () {
         this.exportPresentation = function (props) {
             var arrChartPromises = [];
             var arrMediaPromises = [];
-            var zip = new JSZip__default['default']();
+            var zip = new JSZip__default["default"]();
             // STEP 1: Read/Encode all Media before zip as base64 content, etc. is required
             _this.slides.forEach(function (slide) {
                 arrMediaPromises = arrMediaPromises.concat(encodeSlideMediaRels(slide));
